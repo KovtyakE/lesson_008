@@ -55,7 +55,7 @@ class House:
 
     def daily_dust(self):
         self.dirt += 5
-        cprint('В доме за ночь накопилось немного пыли', color='yellow')
+        cprint('В доме за ночь накопилось немного пыли', color='white')
 
 
 class Husband:
@@ -204,10 +204,10 @@ class Wife:
         self.happiness -= 5
         if home.dirt <= 100:
             home.dirt = 0
-            cprint('{} убралась в доме'.format(self.name), color='yellow')
+            cprint('{} убралась в доме'.format(self.name), color='white')
         else:
             home.dirt -= 100
-            cprint('{} убралась в доме'.format(self.name), color='yellow')
+            cprint('{} убралась в доме'.format(self.name), color='white')
 
     def gaming(self):
         self.fullness -= 10
@@ -229,7 +229,7 @@ for day in range(365):
         cprint(serge, color='cyan')
     if masha.is_alive:
         cprint(masha, color='cyan')
-    cprint(home, color='cyan')
+    cprint(home, color='yellow')
 
 
 # TODO после реализации первой части - отдать на проверку учителю
