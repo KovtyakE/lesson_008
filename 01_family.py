@@ -122,8 +122,6 @@ class Husband:
             self.eat()
         else:
             self.work()
-        # elif dice == 4:
-        #     self.гладить кота
 
 
 class Wife:
@@ -138,6 +136,50 @@ class Wife:
     def __str__(self):
         # return super().__str__()
         return '{} сытость {} счастье {}'.format(self.name, self.fullness, self.happiness)
+
+    def eat(self):
+        if home.food >= 30:
+            self.fullness += 30
+            home.food -= 30
+            self.hungry_count = 0
+            cprint('{} поела'.format(self.name), color='green')
+        elif 20 >= home.food > 0:
+            self.fullness += home.food
+            home.food = 0
+            self.hungry_count = 0
+            cprint('{} доела остатки еды'.format(self.name), color='green')
+        else:
+            cprint('{}: Нет еды!'.format(self.name), color='red')
+            self.hungry_count += 1
+            if self.hungry_count == 3:
+                self.fullness = 0
+
+    def shopping(self):
+        self.fullness -= 10
+        home.money -= 50
+        home.food += 50
+        cprint('{} сходила в магазин за продуктами'.format(self.name), color='green')
+
+    def buy_fur_coat(self):
+        home.money -= 350
+        self.happiness += 60
+        cprint('{} купила себе шубку'.format(self.name), color='magenta')
+
+    def clean_house(self):
+        self.fullness -= 10
+        self.happiness -= 5
+        if home.dirt <= 100:
+            home.dirt = 0
+            cprint('{} убралась в доме'.format(self.name), color='white')
+        else:
+            home.dirt -= 100
+            cprint('{} убралась в доме'.format(self.name), color='white')
+
+    def gaming(self):
+        self.fullness -= 10
+        if self.happiness <= 90:
+            self.happiness += 10
+        cprint('{} играла в Genshin Impact'.format(self.name), color='magenta')
 
     def act(self):
         if home.dirt > 90:
@@ -166,73 +208,6 @@ class Wife:
         else:
             self.gaming()
 
-        # elif dice == 3 or dice == 4:
-        #     self.work()
-        # elif dice == 5 or dice == 6:
-        #     self.гладить кота
-
-    def eat(self):
-        if home.food >= 30:
-            self.fullness += 30
-            home.food -= 30
-            self.hungry_count = 0
-            cprint('{} поела'.format(self.name), color='green')
-        elif 20 >= home.food > 0:
-            self.fullness += home.food
-            home.food = 0
-            self.hungry_count = 0
-            cprint('{} доела остатки еды'.format(self.name), color='green')
-        else:
-            cprint('{}: Нет еды!'.format(self.name), color='red')
-            self.hungry_count += 1
-            if self.hungry_count == 3:
-                self.fullness = 0
-
-    def shopping(self):
-        self.fullness -= 10
-        home.money -= 50
-        home.food += 50
-        cprint('{} сходила в магазин за продуктами'.format(self.name), color='green')
-
-    def buy_fur_coat(self):
-        home.money -= 350
-        self.happiness += 60
-        cprint('{} купила себе шубку'.format(self.name), color='purple')
-
-    def clean_house(self):
-        self.fullness -= 10
-        self.happiness -= 5
-        if home.dirt <= 100:
-            home.dirt = 0
-            cprint('{} убралась в доме'.format(self.name), color='white')
-        else:
-            home.dirt -= 100
-            cprint('{} убралась в доме'.format(self.name), color='white')
-
-    def gaming(self):
-        self.fullness -= 10
-        if self.happiness <= 90:
-            self.happiness += 10
-        cprint('{} играла в Genshin Impact'.format(self.name), color='magenta')
-
-
-home = House()
-serge = Husband(name='Сережа')
-masha = Wife(name='Маша')
-
-for day in range(365):
-    cprint('================== День {} =================='.format(day), color='red')
-    home.daily_dust()
-    serge.act()
-    masha.act()
-    if serge.is_alive:
-        cprint(serge, color='cyan')
-    if masha.is_alive:
-        cprint(masha, color='cyan')
-    cprint(home, color='yellow')
-
-
-# TODO после реализации первой части - отдать на проверку учителю
 
 ######################################################## Часть вторая
 #
@@ -290,22 +265,66 @@ class Cat:
 
 class Child:
 
-    def __init__(self):
-        pass
+    def __init__(self, name):
+        self.name = name
+        self.fullness = 30
+        self.happiness = 100
+        self.hungry_count = 0
+        self.is_alive = True
 
     def __str__(self):
-        return super().__str__()
-
-    def act(self):
-        pass
+        # return super().__str__()
+        return 'Ребенок {} сытость {} счастье {}'.format(self.name, self.fullness, self.happiness)
 
     def eat(self):
-        pass
+        if home.food >= 10:
+            self.fullness += 10
+            home.food -= 10
+            self.hungry_count = 0
+            cprint('{} поела'.format(self.name), color='green')
+        else:
+            cprint('{}: Нет еды!'.format(self.name), color='red')
+            if self.hungry_count == 2:
+                self.fullness = 0
+            self.hungry_count += 1
 
     def sleep(self):
-        pass
+        self.fullness -= 10
+        cprint('Ребёнок {} поспал'.format(self.name))
 
-# TODO после реализации второй части - отдать на проверку учителем две ветки
+    def act(self):
+        dice = randint(1, 2)
+        if self.fullness <= 0:
+            cprint('{} умер от голода'.format(self.name), color='red')
+            self.is_alive = False
+        elif self.fullness < 50:
+            self.eat()
+        elif dice == 1 and self.fullness < 90:
+            self.eat()
+        else:
+            self.sleep()
+
+
+home = House()
+serge = Husband(name='Сережа')
+masha = Wife(name='Маша')
+kolya = Child(name='Коля')
+
+for day in range(365):
+    cprint('================== День {} =================='.format(day), color='red')
+    home.daily_dust()
+    serge.act()
+    masha.act()
+    kolya.act()
+    if serge.is_alive:
+        cprint(serge, color='cyan')
+    if masha.is_alive:
+        cprint(masha, color='cyan')
+    if kolya.is_alive:
+        cprint(kolya, color='cyan')
+    cprint(home, color='yellow')
+
+
 
 
 ######################################################## Часть третья
