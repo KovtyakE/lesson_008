@@ -378,10 +378,7 @@ serge = Husband(name='Сережа')
 masha = Wife(name='Маша')
 kolya = Child(name='Коля')
 cats = [Cat(name='Мурзик'),
-        Cat(name='Снежок'),
-        Cat(name='Васька'),
-        Cat(name='Кексик'),
-        Cat(name='Мяут')
+        Cat(name='Снежок')
         ]
 
 for day in range(365):
