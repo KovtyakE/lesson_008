@@ -342,7 +342,7 @@ class Child:
             self.fullness += 10
             home.food -= 10
             self.hungry_count = 0
-            cprint('{} поела'.format(self.name), color='green')
+            cprint('{} поел'.format(self.name), color='green')
         else:
             cprint('{}: Нет еды!'.format(self.name), color='red')
             if self.hungry_count == 2:
@@ -366,7 +366,7 @@ class Child:
             self.sleep()
 
 
-######################################################## Часть третья
+# Часть третья
 #
 # после подтверждения учителем второй части (обоих веток)
 # влить в мастер все коммиты из ветки develop и разрешить все конфликты
